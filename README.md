@@ -1,1 +1,1 @@
-### Deploy to GCP using Circle CI 
+### Deploy Maven project to GCR using Circle CI 
