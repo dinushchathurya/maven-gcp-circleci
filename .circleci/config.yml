@@ -21,7 +21,7 @@ references:
   
   install_maven: &install_maven
     run:
-      name: Install 
+      name: Install maven
       command: mvn clean install    
 
   install_dependencies: &install_dependencies
@@ -101,9 +101,11 @@ references:
         source $BASH_ENV
 
 executors:
+
   default:
     <<: *container_config
-    resource_class: medium+ 
+    resource_class: medium+                                                   		
+
 jobs:
 
   compile:
