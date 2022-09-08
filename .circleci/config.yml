@@ -91,9 +91,7 @@ references:
     run:
       name: Publish Images GCP
       command: |
-        set -x
-        export DOCKER_REPO=gcr.io/$GOOGLE_PROJECT_ID
-        make push  
+        docker push limarktest/gradle-docker-app:latest
   
 jobs:
   build:
