@@ -71,6 +71,31 @@ references:
         only:
           - refactor		
 
+  setup_remote_docker: &setup_remote_docker
+    setup_remote_docker:
+      docker_layer_caching: true
+
+  docker_login_gcp: &docker_login_gcp
+    run:
+      name: Docker Login GCP
+      command: |
+        echo $GCLOUD_SERVICE_KEY | docker login -u _json_key --password-stdin https://gcr.io
+
+  publish_images_local: &publish_images_local
+    run:
+      name: Publish Images Local
+      command: |
+        set -x
+        make build   
+
+  publish_images_gcp: &publish_images_gcp
+    run:
+      name: Publish Images GCP
+      command: |
+        set -x
+        export DOCKER_REPO=gcr.io/$GOOGLE_PROJECT_ID
+        make push  
+  
 jobs:
   build:
     <<: *container_config
@@ -95,6 +120,18 @@ jobs:
       - *run_test 
       - *store_test_results
       - *save_working_directory  
+
+  build_and_publish_gcp:
+    <<: *container_config
+    steps:
+      - *mount_workspace
+      - *restore_cache
+      - *install
+      - *install_dependencies
+      - *setup_remote_docker
+      - *publish_images_local
+      - *docker_login_gcp
+      - *publish_images_gcp
   
 workflows:
   build:
@@ -102,6 +139,10 @@ workflows:
       - build:
           <<: *refactor_only
       - test:
+          <<: *refactor_only
+          requires:
+            - build
+      - build_and_publish_gcp:
           <<: *refactor_only
           requires:
             - build
