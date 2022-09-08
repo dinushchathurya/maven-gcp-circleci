@@ -85,7 +85,7 @@ references:
     run:
       name: Publish Images Local
       command: |
-        docker build -f Dockerfile -t limarktest/gradle-docker-app:SHORT_GIT_HASH .  
+        docker build -f Dockerfile -t limarktest/gradle-docker-app:latest .  
 
   publish_images_gcp: &publish_images_gcp
     run:
