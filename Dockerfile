@@ -1,4 +1,4 @@
 FROM openjdk:11
 EXPOSE 8080
-ADD /target/demo.jar demo.jar
+ADD /target/jb-hello-world-maven-0.2.0.jar demo.jar
 ENTRYPOINT ["java","-jar","demo.jar"]
