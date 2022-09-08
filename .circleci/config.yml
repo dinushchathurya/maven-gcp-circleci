@@ -1,10 +1,17 @@
 version: 2.1  # the version of the config circleci file
 
-jobs:
-  build:
+references:
+
+  working_directory: &working_directory ~/workspace
+
+  container_config: &container_config
+    working_directory: *working_directory
     docker:
       - image: cimg/openjdk:11.0.8
-    working_directory: ~/workspace
+
+jobs:
+  build:
+    <<: *container_config
     steps:
       - checkout
       - run:
@@ -45,10 +52,10 @@ workflows:
       - build:
           filters:
             branches:
-              only: master
+              only: refactor
       - deploy:
           requires:
             - build
           filters:
             branches:
-              only: master
+              only: refactor
