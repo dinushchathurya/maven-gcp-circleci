@@ -63,7 +63,13 @@ references:
   
   store_test_results: &store_test_results
     store_test_results:
-      path: /target/test-results		
+      path: /target/test-results
+
+  refactor_only: &refactor_only
+    filters:
+      branches:
+        only:
+          - refactor		
 
 jobs:
   build:
@@ -90,25 +96,12 @@ jobs:
       - *store_test_results
       - *save_working_directory  
   
-  deploy:
-    docker:
-      - image: alpine/git
-    steps:
-      - checkout
-      - run:
-          name: Deploy Image
-          command: echo "Deploy"
-
 workflows:
-  build-and-deploy:
+  build:
     jobs:
       - build:
-          filters:
-            branches:
-              only: refactor
+          <<: *refactor_only
       - deploy:
+          <<: *refactor_only
           requires:
             - build
-          filters:
-            branches:
-              only: refactor
