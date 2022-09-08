@@ -9,16 +9,22 @@ references:
     docker:
       - image: cimg/openjdk:11.0.8
 
+  check_version: &check_version
+    run:
+      name: Check Java *check_version
+      command: java -version
+  
+  restore_cache: &restore_cache
+    restore_cache:  
+      name: Restore Cache
+      key: dependencies-{{ checksum "pom.xml" }}'  
 jobs:
   build:
     <<: *container_config
     steps:
       - checkout
-      - run:
-          name: Check java version
-          command: java -version
-      - restore_cache:
-          key: 'dependencies-{{ checksum "pom.xml" }}'
+      - *check_version
+      - *restore_cache
       - run:
           name: Install
           command: mvn clean install
