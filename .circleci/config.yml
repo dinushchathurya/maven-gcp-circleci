@@ -36,6 +36,16 @@ references:
       paths:
         - ~/.m2 
 
+  save_working_directory: &save_working_directory
+    persist_to_workspace:
+      root: *working_directory
+      paths:
+        - .
+
+  mount_workspace: &mount_workspace
+    attach_workspace:
+      at: *working_directory
+
   validate: &validate
     run:
       name: Validate 
@@ -46,10 +56,14 @@ references:
       name: Compile 
       command:  mvn -B compile  
 
-  test: &test
+  run_test: &run_test
     run:
       name: Test 
       command:  mvn -B test  
+  
+  store_test_results: &store_test_results
+    store_test_results:
+      path: /target/test-results		
 
 jobs:
   build:
@@ -61,9 +75,21 @@ jobs:
       - *install
       - *install_dependencies
       - *save_cache
+      - *save_working_directory
+
+  test:
+    <<: *container_config
+    steps:
+      - *mount_workspace
+      - *restore_cache
+      - *install
+      - *install_dependencies
       - *validate
       - *compile
-      - *test
+      - *run_test 
+      - *store_test_results
+      - *save_working_directory  
+  
   deploy:
     docker:
       - image: alpine/git
@@ -72,6 +98,7 @@ jobs:
       - run:
           name: Deploy Image
           command: echo "Deploy"
+
 workflows:
   build-and-deploy:
     jobs:
