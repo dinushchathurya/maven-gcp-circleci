@@ -91,7 +91,7 @@ references:
     run:
       name: Publish Images GCP
       command: |
-        docker push limarktest/gradle-docker-app:latest
+        docker push gradle-docker-app:latest
   
 jobs:
   build:
