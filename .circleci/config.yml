@@ -85,13 +85,20 @@ references:
     run:
       name: Publish Images Local
       command: |
-        docker build -f Dockerfile -t maven-project .   
+        docker build -f Dockerfile -t limarktest/gradle-docker-app:SHORT_GIT_HASH   
 
   publish_images_gcp: &publish_images_gcp
     run:
       name: Publish Images GCP
       command: |
-        docker push gradle-docker-app:latest
+        docker push limarktest/gradle-docker-app:SHORT_GIT_HASH
+
+  set_git_hash: &set_git_hash
+    run:
+      name: Set Git Hash
+      command: |
+        echo "export SHORT_GIT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7)" >> $BASH_ENV
+        source $BASH_ENV
   
 jobs:
   build:
