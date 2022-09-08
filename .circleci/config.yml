@@ -26,7 +26,7 @@ references:
 
   install_dependencies: &install_dependencies
     run:
-      name: Install 
+      name: Install dependencies
       command: mvn dependency:go-offline 
 
   save_cache: &save_cache
