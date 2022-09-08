@@ -85,13 +85,13 @@ references:
     run:
       name: Publish Images Local
       command: |
-        docker build -f Dockerfile -t limarktest/gradle-docker-app:SHORT_GIT_HASH   
+        docker build -f Dockerfile -t limarktest/gradle-docker-app:SHORT_GIT_HASH .  
 
   publish_images_gcp: &publish_images_gcp
     run:
       name: Publish Images GCP
       command: |
-        docker push limarktest/gradle-docker-app:SHORT_GIT_HASH .
+        docker push limarktest/gradle-docker-app:latest
 
   set_git_hash: &set_git_hash
     run:
@@ -133,6 +133,7 @@ jobs:
       - *install
       - *install_dependencies
       - *setup_remote_docker
+      - *set_git_hash
       - *publish_images_local
       - *docker_login_gcp
       - *publish_images_gcp
