@@ -34,8 +34,8 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Deploy Image
-        command: echo "Deploy"
+          name: Deploy Image
+          command: echo "Deploy"
 workflows:
   build-and-deploy:
     jobs:
