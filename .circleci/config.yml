@@ -79,7 +79,7 @@ references:
     run:
       name: Docker Login GCP
       command: |
-        echo $GCLOUD_SERVICE_KEY | docker login -u _json_key --password-stdin https://gcr.io
+        docker login -u $DOCKER_USER -p $DOCKER_PASS
 
   publish_images_local: &publish_images_local
     run:
