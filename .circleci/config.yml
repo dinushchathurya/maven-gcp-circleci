@@ -6,8 +6,5 @@ jobs:
       - image: circleci/node:10.16.0
     steps: 
       - checkout
-      - run:
-          name: Login to Docker Hub
-          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
 
 				
