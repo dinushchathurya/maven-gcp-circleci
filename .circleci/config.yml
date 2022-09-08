@@ -99,11 +99,17 @@ references:
       command: |
         echo "export SHORT_GIT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7)" >> $BASH_ENV
         source $BASH_ENV
-  
+
+executors:
+  default:
+    <<: *container_config
+    resource_class: medium+ 
 jobs:
 
   compile:
     <<: *container_config
+    resource_class: medium+
+    parallelism: 8
     steps:
       - checkout
       - *check_version
@@ -115,6 +121,8 @@ jobs:
 
   test:
     <<: *container_config
+    resource_class: medium+
+    parallelism: 8
     steps:
       - *mount_workspace
       - *restore_cache
@@ -128,6 +136,8 @@ jobs:
 
   build_and_publish_gcp:
     <<: *container_config
+    resource_class: medium+
+    parallelism: 8
     steps:
       - *mount_workspace
       - *restore_cache
