@@ -1,4 +1,5 @@
 version: 2.1  # the version of the config circleci file
+
 jobs:
   build:
     docker:
@@ -27,3 +28,24 @@ jobs:
       - run:
           name: Test
           command: mvn -B test
+  deploy:
+    docker:
+      - image: alpine/git
+    steps:
+      - checkout
+      - run:
+        name: Deploy Image
+        command: echo "Deploy"
+workflows:
+  build-and-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
