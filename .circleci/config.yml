@@ -91,7 +91,7 @@ references:
     run:
       name: Publish Images GCP
       command: |
-        docker push limarktest/gradle-docker-app:SHORT_GIT_HASH
+        docker push limarktest/gradle-docker-app:SHORT_GIT_HASH .
 
   set_git_hash: &set_git_hash
     run:
