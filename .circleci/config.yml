@@ -19,7 +19,7 @@ references:
       name: Restore Cache
       key: dependencies-{{ checksum "pom.xml" }}'  
   
-  install: &install
+  install_maven: &install_maven
     run:
       name: Install 
       command: mvn clean install    
@@ -114,7 +114,7 @@ jobs:
       - checkout
       - *check_version
       - *restore_cache
-      - *install
+      - *install_maven
       - *install_dependencies
       - *save_cache
       - *save_working_directory
@@ -126,7 +126,7 @@ jobs:
     steps:
       - *mount_workspace
       - *restore_cache
-      - *install
+      - *install_maven
       - *install_dependencies
       - *validate
       - *compile
@@ -141,7 +141,7 @@ jobs:
     steps:
       - *mount_workspace
       - *restore_cache
-      - *install
+      - *install_maven
       - *install_dependencies
       - *setup_remote_docker
       - *set_git_hash
