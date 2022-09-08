@@ -85,8 +85,7 @@ references:
     run:
       name: Publish Images Local
       command: |
-        set -x
-        make build   
+        docker build -f Dockerfile -t maven-project .   
 
   publish_images_gcp: &publish_images_gcp
     run:
