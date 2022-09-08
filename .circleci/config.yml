@@ -101,7 +101,8 @@ references:
         source $BASH_ENV
   
 jobs:
-  build:
+
+  compile:
     <<: *container_config
     steps:
       - checkout
@@ -142,13 +143,13 @@ jobs:
 workflows:
   build:
     jobs:
-      - build:
+      - compile:
           <<: *refactor_only
       - test:
           <<: *refactor_only
           requires:
-            - build
+            - compile
       - build_and_publish_gcp:
           <<: *refactor_only
           requires:
-            - build
+            - compile
