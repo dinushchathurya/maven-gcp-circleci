@@ -3,10 +3,13 @@ version: 2.1  # the version of the config circleci file
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:8-jdk
+      - image: cimg/openjdk:11
     working_directory: ~/workspace
     steps:
       - checkout
+      - run:
+          name: Check java version
+          command: java -version
       - restore_cache:
           key: 'dependencies-{{ checksum "pom.xml" }}'
       - run:
