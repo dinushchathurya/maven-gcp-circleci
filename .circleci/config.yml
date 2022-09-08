@@ -131,6 +131,7 @@ jobs:
       - *publish_images_local
       - *docker_login_gcp
       - *publish_images_gcp
+      - *save_working_directory
   
 workflows:
   build:
